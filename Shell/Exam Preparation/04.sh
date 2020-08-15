@@ -9,6 +9,6 @@ fileTwoResult=$(grep "${2}" "${2}" | wc -l)
 
 if [ $fileOneResult -gt $fileTwoResult ]; then
 	cut -d' ' -f4- "${1}" | sort -t' ' -k1 > $1.songs
-else cut -d' ' -f4- "${2}" | sort -t' ' -k1
+else cut -d' ' -f4- "${2}" | sort -t' ' -k1 > $1.songs
 fi
 
