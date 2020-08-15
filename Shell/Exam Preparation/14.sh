@@ -12,7 +12,7 @@ fi
 
 USERS=$(mktemp)
 
-ps -e -o user | cut -d' ' -f1 | sort  | uniq > USERS
+ps -e -o user="" | sort  | uniq > USERS
 
 while read user
 do
