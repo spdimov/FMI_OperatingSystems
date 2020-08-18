@@ -9,8 +9,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+
 int cmp(const void *a, const void *b)
 {
     return ( *(uint8_t*)a - *(uint8_t*)b );
