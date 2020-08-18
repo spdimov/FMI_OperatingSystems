@@ -30,6 +30,10 @@ int main(int argc,char* argv[]){
         }
 	
 	if((fd3=open(argv[3],O_WRONLY | O_CREAT | O_TRUNC,S_IRUSR | S_IWUSR))==-1){
+		const int old_errno=errno;
+		close(fd1);
+		close(fd2);
+		errno=old_errno;
                 err(4,"Error reading %s",argv[3]);
         }
 	
