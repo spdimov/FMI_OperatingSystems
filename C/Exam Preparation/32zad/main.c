@@ -75,7 +75,7 @@ int main(int argc,char* argv[]){
 
 	int read_size;
 	while((read_size=read(fd1,&pair,sizeof(pair))) > 0){
-		off_t check=lseek(fd2,pair[0]*sizeof(uint32_t),SEEK_SET);
+		off_t check=lseek(fd2,(pair.pos+pair.cnt)*sizeof(uint32_t),SEEK_SET);
 		if(check < 0){
 			const int old_errno=errno;
 			close(fd1);
@@ -97,7 +97,7 @@ int main(int argc,char* argv[]){
 				err(9,"Error writing to file");
 			}
 			cnt++;
-			if(cnt==pair[1]){
+			if(cnt==pair.cnt){
 				break;
 			}
 		}	
