@@ -90,12 +90,12 @@ int main(int argc,char* argv[]){
 		while(read(fd2,&storage,sizeof(storage))){
 			int wrt_size;
 			if(( wrt_size=write(fd3,&storage,sizeof(storage)))!= sizeof(storage)){
-			const int old_errno=errno;
-                        close(fd1);
-                        close(fd2);
-                        close(fd3);
-                        errno=old_errno;
-			err(9,"Error writing to file");
+				const int old_errno=errno;
+                       		close(fd1);
+                        	close(fd2);
+                        	close(fd3);
+                        	errno=old_errno;
+				err(9,"Error writing to file");
 			}
 			cnt++;
 			if(cnt==buffer[1]){
