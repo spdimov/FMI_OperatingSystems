@@ -78,6 +78,9 @@ int main(int argc,char* argv[]){
 			write(f2,&tr.new,sizeof(tr.new));
 		}
 	}
-	
+	close(f1);
+	close(f2);
+	close(patch);
+	exit(0);
 
 }
