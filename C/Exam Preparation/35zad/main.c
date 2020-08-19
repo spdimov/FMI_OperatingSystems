@@ -80,5 +80,9 @@ int main(int argc, char* argv[]){
 		pos++;
 	}
 	
+	close(fd1);
+	close(fd2);
+	close(fd3);
+	exit(0);
 
 }
