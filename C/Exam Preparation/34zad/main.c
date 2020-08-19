@@ -90,7 +90,10 @@ int main(int argc,char* argv[]){
 			y.pos+=y.len;
 		}
 	}
-
-
+	close(fd1dat);
+	close(f1idx);
+	close(f2dat);
+	close(f2idx);
+	exit(0);
 
 }
