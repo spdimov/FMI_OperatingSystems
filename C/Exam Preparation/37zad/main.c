@@ -57,21 +57,27 @@ int main(int argc,char* argv[]){
 		err(6,"Not correct file size %s",argv[1]);
 	}
 	uint8_t buff[2<<10];
-	while(read(f1,&buff,sizeof(buffer))>0){
-		write(f1,&buff,sizeof(buffer));
+	int rd_size;
+	while((rd_size=read(f1,&buff,sizeof(buffer)))>0){
+		int wr_size;
+		if((wr_size=write(f2,&buff,sizeof(buffer)))!=rd_size){
+			
+		}
 	}
 	lseek(f1,0,SEEK_SET);
-        lseek(f1,0,SEEK_SET);
+        lseek(f2,0,SEEK_SET);
 
-			
-	size_t rd;
+	ssize_t rd;
 	uint8_t a;
 	uint8_t b;
 	while((rd=read(patch,&tr,sizeof(tr)>0))){
 		lseek(f1,tr.disp,SEEK_SET);
-		lseek(f1,tr.disp,SEEK_SET);
+		lseek(f2,tr.disp,SEEK_SET);
 		read(f1,&a,sizeof(a));
+		if(a==tr.org){
+			write(f2,&tr.new,sizeof(tr.new));
+		}
 	}
-
+	
 
 }
