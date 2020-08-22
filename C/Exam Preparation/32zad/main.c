@@ -75,7 +75,7 @@ int main(int argc,char* argv[]){
 
 	int read_size;
 	while((read_size=read(fd1,&pair,sizeof(pair))) > 0){
-		off_t check=lseek(fd2,(pair.pos+pair.cnt)*sizeof(uint32_t),SEEK_SET);
+		off_t check=lseek(fd2,pair.pos*sizeof(uint32_t),SEEK_SET);
 		if(check < 0){
 			const int old_errno=errno;
 			close(fd1);
