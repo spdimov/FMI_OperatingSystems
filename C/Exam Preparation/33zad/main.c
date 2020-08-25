@@ -45,6 +45,7 @@ int main(int argc,char* argv[]){
 	if(fstat(fd1,&st)<0){
 		const int old_errno=errno;
 		close(fd1);
+		close(t1);
 		errno=old_errno;
 		err(5,"failed stat");
 	}
@@ -52,8 +53,9 @@ int main(int argc,char* argv[]){
 	if(st.st_size % sizeof(uint32_t) != 0){
 		const int old_errno=errno;
 		close(fd1);
+		close(t1);
 		errno=old_errno;
-		errx(6,"Error stat");
+		errx(6,"Inconsistent f");
 	}
 	
 	int numel=st.st_size / sizeof(uint32_t);
@@ -62,12 +64,13 @@ int main(int argc,char* argv[]){
 	if(!p){
 		const int old_errno=errno;
 		close(fd1);
+		close(t1);
 		errno=old_errno;
 		err(7,"Error malloc");
 	}
 	
 	size_t res=read(fd1,p,lhalf*sizeof(uint32_t));
-	if(res!=lhalf*sizeof(uint32_t)){
+	if(res!=(ssize_t)(lhalf*sizeof(uint32_t))){
 		const int old_errno=errno;
 		close(fd1);
 		free(p);
@@ -75,8 +78,9 @@ int main(int argc,char* argv[]){
 		err(8,"Error reading file");
 	}
 	qsort(p,lhalf,sizeof(uint32_t),cmp);
+	
 	res=write(t1,p,lhalf*sizeof(uint32_t));
-	if(res != lhalf*sizeof(uint32_t)){
+	if(res != (ssize_t)(lhalf*sizeof(uint32_t))){
 		const int old_errno=errno;
 		close(fd1);
 		close(t1);
@@ -96,7 +100,7 @@ int main(int argc,char* argv[]){
         }
 
 	res=read(fd1,rp,rhalf*sizeof(uint32_t));
-	if(res != rhalf*sizeof(uint32_t)){
+	if(res != (ssize_t)(rhalf*sizeof(uint32_t))){
 		const int old_errno=errno;
 		close(fd1);
 		close(t1);
@@ -115,7 +119,7 @@ int main(int argc,char* argv[]){
 
 	qsort(rp,rhalf,sizeof(uint32_t),cmp);
 	res=write(t2,rp,rhalf*sizeof(uint32_t));
-	if(res != rhalf*sizeof(uint32_t)){
+	if(res != (ssize_t)(rhalf*sizeof(uint32_t))){
 		const int old_errno=errno;
                 close(fd1);
                 close(t1);

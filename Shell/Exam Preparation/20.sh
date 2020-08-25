@@ -21,7 +21,7 @@ files=$(mktemp)
 find $1 -type f -name "*$3*" 2>/dev/null > $files
 
 while read file; do
-	new_relative_path=$(echo $file | sed --expression "s@${1}\/@@")
+	new_relative_path=$(echo $file | sed --expression "s/${1}\///g")
 	mkdir -p "$2/$(dirname "${new_relative_path}")"
 	cp $file $2/$(dirname "${new_relative_path}")
 done < $files

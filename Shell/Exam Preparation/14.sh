@@ -12,13 +12,13 @@ fi
 
 USERS=$(mktemp)
 
-ps -e -o user | cut -d' ' -f1 | sort  | uniq > USERS
+ps -e -o user="" | sort  | uniq > USERS
 
 while read user
 do
 	to_kill=$(mktemp)
 	ps -e -o rss,pid,user | grep  $user | sort -rn | awk -v max=$1 'NR==1 {ppid=$2; cnt=0} {cnt=cnt+$1} END{if(cnt>max) print ppid}' >to_kill
-	kill $(cat to_kill)
+	kill $(cat to_kill) 2>/dev/null
 
 
 done < USERS

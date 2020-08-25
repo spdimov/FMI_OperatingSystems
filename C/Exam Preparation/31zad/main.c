@@ -9,8 +9,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+
 int cmp(const void *a, const void *b)
 {
     return ( *(uint8_t*)a - *(uint8_t*)b );
@@ -26,10 +25,12 @@ int main(int argc,char* argv[]){
 		err(2,"Error opening file");
 	}
 	struct stat st;
-        fstat(fd1,&st);
-
+        if(fstat(fd1,&st) == -1){
+		err(3,"Error in stat file");
+	}
+	
 	const size_t buf_size=st.st_size;
-        uint32_t buffer[buf_size];
+        uint8_t buffer[buf_size];
         int read_size=0;
 
 	if((read_size=read(fd1,&buffer,buf_size))==-1){

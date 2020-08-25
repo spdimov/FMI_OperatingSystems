@@ -30,6 +30,10 @@ int main(int argc,char* argv[]){
         }
 	
 	if((fd3=open(argv[3],O_WRONLY | O_CREAT | O_TRUNC,S_IRUSR | S_IWUSR))==-1){
+		const int old_errno=errno;
+		close(fd1);
+		close(fd2);
+		errno=old_errno;
                 err(4,"Error reading %s",argv[3]);
         }
 	
@@ -68,11 +72,10 @@ int main(int argc,char* argv[]){
 		errx(7,"Error in files");
 	}
 
-	int buff_size=sizeof(pair);
-	uint32_t buffer[buff_size];
+
 	int read_size;
-	while((read_size=read(fd1,&buffer,sizeof(pair))) > 0){
-		off_t check=lseek(fd2,buffer[0]*sizeof(uint32_t),SEEK_SET);
+	while((read_size=read(fd1,&pair,sizeof(pair))) > 0){
+		off_t check=lseek(fd2,pair.pos*sizeof(uint32_t),SEEK_SET);
 		if(check < 0){
 			const int old_errno=errno;
 			close(fd1);
@@ -86,15 +89,15 @@ int main(int argc,char* argv[]){
 		while(read(fd2,&storage,sizeof(storage))){
 			int wrt_size;
 			if(( wrt_size=write(fd3,&storage,sizeof(storage)))!= sizeof(storage)){
-			const int old_errno=errno;
-                        close(fd1);
-                        close(fd2);
-                        close(fd3);
-                        errno=old_errno;
-			err(9,"Error writing to file");
+				const int old_errno=errno;
+                       		close(fd1);
+                        	close(fd2);
+                        	close(fd3);
+                        	errno=old_errno;
+				err(9,"Error writing to file");
 			}
 			cnt++;
-			if(cnt==buffer[1]){
+			if(cnt==pair.cnt){
 				break;
 			}
 		}	
